@@ -1,0 +1,17 @@
+function parts = dismantel_signal(x_values,y_values,shift)
+
+x_values = x_values(:)';
+y_values = y_values(:)';
+
+len = length(x_values);
+
+calc = 0;
+number_samples = 0;
+
+while len >= calc
+               
+            number_samples  = number_samples + 1;
+            calc            = (shift)*(number_samples-1)+train_samples.Sample_length;
+end
+
+nu,m
