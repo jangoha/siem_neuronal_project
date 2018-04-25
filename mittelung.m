@@ -15,6 +15,8 @@ if mod(mittellaenge,2) ==1
     values.y_values = zeros(1,new_length);
     values.x_values = zeros(1,new_length);
     
+    param = 0;
+    
     for k=1:new_length
         
 %         para1 = k-1;                    %Parameter zum verschieben der Mittelung in Abständen von Mittellänge

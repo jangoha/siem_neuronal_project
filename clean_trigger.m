@@ -1,18 +1,18 @@
+
+
 function trigger = clean_trigger(trigger,scale)
 
+len = length(trigger);
 
+for k=1:len
 
-for k = 1 : length(trigger)
-
-%     y = trigger(k).y_values;
-    trigger(k).y_values = trigger(k).y_values - min(trigger(k).y_values);
-    trigger(k).marker.y_values = any(trigger(k).y_values,1); % Filtere nach Triggern
+    y = trigger(k).y_values;
+    y = y - min(y);
+    trigger(k).marker.y_values = any(y,1); % Filtere nach Triggern
+    n = length(y);
+    trigger(k).marker.time_values = trigger(k).marker.y_values.*linspace(0,n*0.25/1000,n); %ordne den Triggern die passende Zeit zu
     
-    trigger(k).marker.time_values = trigger(k).marker.y_values .* linspace(0, length(trigger(k).y_values) * 0.25 / 1000, length(trigger(k).y_values)); %ordne den Triggern die passende Zeit zu
-    
-    trigger(k).y_values = trigger(k).y_values ./ max(trigger(k).y_values) * 2 * scale - scale; % skaliere Triggerpeaks, so dass spätere Darstellungen mit Signal passen
+    y = y./max(y)*2*scale-scale; % skaliere Triggerpeaks, so dass spätere Darstellungen mit Signal passen
    
-%     trigger(k).y_values = y;
+    trigger(k).y_values = y;
 end
-
-

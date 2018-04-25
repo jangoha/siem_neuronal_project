@@ -1,7 +1,7 @@
 clear all; close all; clc; 
 % cd ../.   <- geht einen folder hoch, wird aber bei nächstem programmstart
 % aufaddiert, deswegen erstmal manuell (janko):
- cd('D:\My Documents\matlab janko\NeuronaleNetze\NeuronalesNetz');   % eingefügt (janko)
+ cd('D:\My Documents\matlab janko\NeuronaleNetze\NeuronalesNetz\FeedForward');   % eingefügt (janko)
 
 newPath = pwd; % geändert von cd auf pwd (janko)
 setPath(newPath,true)
@@ -12,7 +12,7 @@ typeTrigger = 'normal';% Normal damit load in generate_sets, in den rihctigen Sw
 fileSignals = 'D:\My Documents\matlab janko\NeuronaleNetze\RespatoryFiles\copy\test';
 typeSignals = 'rasp';
 
-Wahl = [4];
+Wahl = [1];
 tic
 trigger = generate_sets(fileTrigger,typeTrigger,Wahl);  % generate_sets läd x und y daten (janko)
 sets = generate_sets(fileSignals,typeSignals,Wahl);     % macht dasselbe für signals statt trigger (janko)
@@ -44,7 +44,7 @@ for j=1:length(sets) % hier wird die mittelung für die set-werte und für die tri
     trigger(j).marker.x_values = triggerValues.x_values;
     %   trigger(j).y_values = (trigger(j).y_values./max(trigger(j).y_values))*(2*scale)-scale;
     
-end     % das geht schöner?
+end     
 
 % plot(sets.x_values, sets.y_values,trigger.marker.x_values,trigger.marker.y_values),hold off;
 % legend ('signal ohne mittleung','trigger ohne mittelung','signal mit mittelung','trigger mit mittelung')
@@ -53,13 +53,13 @@ end     % das geht schöner?
 
 
 % % % Erzeuge FF-Netz
-a = 0.5;                                      % war 0.1 (janko)
+a = 1;                                      % war 0.1  (janko)
 weight_range    = [-a,a];
-struc           = [50,50,50,50,1];          % war 100 200 100 1 (janko)
+struc           = [50,50,50,1];          % war 100 200 100 1 (janko)
 biasStatus = 'inactive';
 
 schwellwert = 0.85; % Schwellwert gibt den x-Wert an der die logistische Funktion 0.5 sein soll
-sensibilitaet = -20; % gibt tendenz der Steigung der logistischen Funktion, je sensibler desto steiler ist die Funktion
+sensibilitaet = -10; % gibt tendenz der Steigung der logistischen Funktion, je sensibler desto steiler ist die Funktion
 
 net = generate_tanh_feedforward(struc,weight_range,'Bias',biasStatus);
 net.Activationfun = 'logistic';
@@ -68,8 +68,8 @@ net.ActivFunParameter = {sensibilitaet,-schwellwert*sensibilitaet,0}; % formel e
 % Initzialisiere Trainingsparameter
 alpha =  0.01;
 beta = 0.1; 
-nIterations = 500;                          % war 1000 (janko)
-nTrainSamples = 50;                         % war 50 (janko)
+nIterations = 50;                          % war 1000 (janko)
+nTrainSamples = 124;                         % war 50 , 124 ist obere Grenze, danach Fehlermeldung -> Index exceeds matrix dimensions.(janko)
 startIndex = 1;
 timeLag = 0;        %round(800/mittelungslaenge);
 
@@ -172,6 +172,7 @@ outs = vertcat(y_Outputs{:});
 figure()
 plot(testValues.original_x_values(struc(1)+1:end)',outs-0.5,'x',trigger.marker.x_values(struc(1)+1:end),trigger.marker.y_values(struc(1)+1:end)-0.5,...
         sets.x_values(struc(1)+1:end),5*sets.y_values(struc(1)+1:end))
+    grid on;
 ylim([-5.1,5.1]);
 legend('NetzOutput','Original Trigger', 'Signal');
 title(['Set: ',num2str(Wahl),' / Schwellwert: ',num2str(schwellwert),' / Sensibilität: ',num2str(sensibilitaet),' / nIterations: ',num2str(nIterations),...
