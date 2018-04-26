@@ -59,6 +59,6 @@ trainSamples.train_x_values = trainSamples.train_x_values(finalIndices);
 trainSamples.train_y_values = trainSamples.train_y_values(finalIndices);
 trainSamples.train_indices = trainSamples.train_indices(finalIndices);
 trainSamples.nTrainSamples = minCounter*2;
-trainSample.percentage = {};
+trainSamples.percentage = {};
 
 
