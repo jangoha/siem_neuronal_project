@@ -1,4 +1,4 @@
-function [err_weights, varargout]= compute_error(net,input,trainmaterial,funcActivation,funcActivation_derivative)
+function [err_weights, varargout]= compute_error(net,input,trainmaterial)
 
 % Berechnet Fehlerparameter der einzelnen Neuronen in jeder Schicht nach dem Formalismus der Backpropagation.
 % Siehe Formeln(Dokument ebenfalls im Ordner abgelegt): - https://www.pdx.edu/sites/www.pdx.edu.sysc/files/Jaeger_TrainingRNNsTutorial.2005.pdf
@@ -20,8 +20,8 @@ function [err_weights, varargout]= compute_error(net,input,trainmaterial,funcAct
 %           werden müssen
           for k=1:net.nLayers
               
-             inter_states{k} = internal_state(net,k,input,funcActivation);
-             derivatives{k}   = diag(funcActivation_derivative(inter_states{k})); %setze Ableitungen auf Diagonale
+             inter_states{k} = internal_state(net,k,input);
+             derivatives{k}   = diag(net.funcActivation_derivative(inter_states{k})); %setze Ableitungen auf Diagonale
               
           end
           

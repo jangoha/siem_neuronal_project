@@ -10,24 +10,6 @@ input = input(:);
 % Korrektur (beta). Wobei die Änderungen eines Iterationschrittes in einer
 % Spalte des Arrays gespeichert werden.
 
-a = net.ActivFunParameter{1};
-b = net.ActivFunParameter{2};
-c = net.ActivFunParameter{3};
-
-switch net.Activationfun
-    
-    case 'tanh'
-        funcActivation = @(x) a*tanh(b*x)+c;
-        funcActivation_derivative = @(x) a*b*(1-tanh(b*x).^2);
-        
-    case 'linear'
-        funcActivation =@(x) a*x+c;
-        funcActivation_derivative =@(x) a*x;
-        
-    case 'logistic'
-        funcActivation =@(x) 1./(1+exp(a*x+b))+c;
-        funcActivation_derivative =@(x) (1./(1+exp(a*x+b))+c).*(-1+(1./(1+exp(a*x+b))+c))*a;
-end
 
         delta_weights       = cell(net.nLayers-1,nIteration); 
         delta_weights(:,1)  = num2cell(zeros(net.nLayers-1,1)); 
@@ -36,18 +18,18 @@ end
 
             % Berechnung der Fehler jeder Schicht bis auf Inputschicht
 
-            errors      = compute_error(net,input,trainmaterial,funcActivation,funcActivation_derivative);
+            errors      = compute_error(net,input,trainmaterial);
 
 
-            dim          = size(net.Weights);
-            weights      = cell(dim);
+             dim          = size(net.Weights);
+             weights      = cell(size(net.Weights));
 
             
-            for(kActiv = 1:dim(2))
-                activArray{kActiv} =activation(net,kActiv,input,funcActivation);
+            for(kActiv = 1:dim(2))   % dim(2)?
+                activArray{kActiv} =activation(net,kActiv,input);
             end
 
-            for k=dim(2):-1:1 % Schleife zur Berechnugn der neuen Gewichte in der k-ten Gewichtsmatrix
+            for k=dim(2):-1:1 % Schleife zur Berechnugn der neuen Gewichte in der k-ten Gewichtsmatrix (2)same
                 activ   = activArray{k};
                 
 

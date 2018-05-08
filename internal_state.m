@@ -1,4 +1,4 @@
-function [state,varargout] = internal_state(net,nLayer,input,func)
+function [state,varargout] = internal_state(net,nLayer,input)
 
 % Berechnet den internen Neuronenstatus in der gewählten Schicht bevor Aktivierungsfunktion auf diese Werte angewandt wird.
 
@@ -19,7 +19,7 @@ if nLayer == 1
 elseif nLayer>1
     
 %  Mit Normalisierung
-                activ = activation(net,nLayer-1,input,func);
+                activ = activation(net,nLayer-1,input);
                 calc = net.Weights{nLayer-1}*activ;
 %                 [state,meann,stdd] = gaussian_normalization(calc);
                 state = gaussian_normalization(calc);

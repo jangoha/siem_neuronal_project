@@ -2,7 +2,7 @@ function net = multiple_set_train(net, training_sets, alpha, beta, nIteration, m
 % Trainingsmethode um mehrere Groundtruthsets in Signal einzuspeisen und zu
 % trianieren
 
-n = length(training_sets);
+% n = length(training_sets);
 
 % instant Update: lässt jedes einzelne Trainingsmuster mit einer Iteration
 % trainieren und springt dann weiter zum nächsten Muster. Ganzer Vorgang
@@ -20,10 +20,10 @@ switch method
 end
 
 for k=1:switch_run_parameter
-    for j=1:n
+    for j=1:length(training_sets)
         
-        train_samples = training_sets(j);
-        net = multiple_sample_train(net, train_samples, alpha, beta, switch_Iteration_parameter, method);
+        % train_samples = training_sets(j);
+        net = multiple_sample_train(net, training_sets(j), alpha, beta, switch_Iteration_parameter, method);
     end
 
     

@@ -23,10 +23,10 @@ for k=1:switch_run_parameter
 
     for j=1:n
 
-        com_y_values     = train_samples.y_values{j};
-        com_train_values = train_samples.train_y_values{j};
+%         com_y_values     = train_samples.y_values{j};
+%         com_train_values = train_samples.train_y_values{j};
 
-        net = train(net, com_y_values, com_train_values, alpha, beta, switch_Iteration_parameter);
+        net = train(net, train_samples.y_values{j}, train_samples.train_y_values{j}, alpha, beta, switch_Iteration_parameter);
 
     end
 
